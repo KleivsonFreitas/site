@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Configurações - Gestão Financeira{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Cabeçalho -->
+        <div class="mb-4">
+            <h1 class="fw-bold">
+                <i class="fas fa-cog me-2"></i>Configurações
+            </h1>
+            <p class="text-muted">Personalize sua experiência no sistema</p>
+        </div>
+
+        <!-- Informações do Usuário -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-user me-2"></i>Informações da Conta
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="text-muted small">Nome</label>
+                        <p class="fw-semibold mb-0">{{ session.user_nome }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="text-muted small">Modo Atual</label>
+                        <p class="mb-0">
+                            {% if session.user_modo == 'simples' %}
+                                <span class="badge bg-primary">
+                                    <i class="fas fa-smile me-1"></i>Modo Simples
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success">
+                                    <i class="fas fa-chart-line me-1"></i>Modo Avançado
+                                </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modo de Interface -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-desktop me-2"></i>Modo de Interface
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    Escolha o modo que melhor se adapta às suas necessidades e nível de experiência com tecnologia.
+                </p>
+
+                <form method="POST" action="{{ url_for('configuracoes') }}">
+                    <div class="row g-4 mb-4">
+                        <!-- Modo Simples -->
+                        <div class="col-md-6">
+                            <input 
+                                type="radio" 
+                                class="btn-check" 
+                                name="modo" 
+                                id="modo_simples" 
+                                value="simples"
+                                {% if session.user_modo == 'simples' %}checked{% endif %}
+                            >
+                            <label class="card h-100 border-2 cursor-pointer" for="modo_simples" style="cursor: pointer;">
+                                <div class="card-body text-center p-4">
+                                    <i class="fas fa-smile fa-3x text-primary mb-3"></i>
+                                    <h4 class="mb-3">Modo Simples</h4>
+                                    
+                                    <div class="text-start">
+                                        <p class="small fw-semibold text-primary mb-2">Ideal para:</p>
+                                        <ul class="small mb-3">
+                                            <li>Iniciantes em tecnologia</li>
+                                            <li>Quem prefere simplicidade</li>
+                                            <li>Controle básico de finanças</li>
+                                        </ul>
+                                        
+                                        <p class="small fw-semibold text-primary mb-2">Recursos:</p>
+                                        <ul class="small mb-0">
+                                            <li>Interface clara e intuitiva</li>
+                                            <li>Botões grandes</li>
+                                            <li>Apenas essencial</li>
+                                            <li>Visualização simples do saldo</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Modo Avançado -->
+                        <div class="col-md-6">
+                            <input 
+                                type="radio" 
+                                class="btn-check" 
+                                name="modo" 
+                                id="modo_avancado" 
+                                value="avancado"
+                                {% if session.user_modo == 'avancado' %}checked{% endif %}
+                            >
+                            <label class="card h-100 border-2 cursor-pointer" for="modo_avancado" style="cursor: pointer;">
+                                <div class="card-body text-center p-4">
+                                    <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                                    <h4 class="mb-3">Modo Avançado</h4>
+                                    
+                                    <div class="text-start">
+                                        <p class="small fw-semibold text-success mb-2">Ideal para:</p>
+                                        <ul class="small mb-3">
+                                            <li>Usuários experientes</li>
+                                            <li>Empreendedores</li>
+                                            <li>Controle detalhado</li>
+                                        </ul>
+                                        
+                                        <p class="small fw-semibold text-success mb-2">Recursos:</p>
+                                        <ul class="small mb-0">
+                                            <li>Gráficos e relatórios</li>
+                                            <li>Análise por categoria</li>
+                                            <li>Evolução temporal</li>
+                                            <li>Filtros e exportação</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save me-2"></i>Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Informações Adicionais -->
+        <div class="card border-info mb-4">
+            <div class="card-header bg-info bg-opacity-10">
+                <h6 class="mb-0 text-info">
+                    <i class="fas fa-info-circle me-2"></i>Sobre os Modos
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="small mb-2">
+                    <strong>Você pode alternar entre os modos a qualquer momento!</strong>
+                </p>
+                <p class="small mb-0">
+                    Seus dados e transações são mantidos independentemente do modo escolhido. 
+                    A diferença está apenas na forma como as informações são apresentadas e nas funcionalidades disponíveis.
+                </p>
+            </div>
+        </div>
+
+        <!-- Ações da Conta -->
+        <div class="card border-warning">
+            <div class="card-header bg-warning bg-opacity-10">
+                <h6 class="mb-0 text-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Ações da Conta
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">Sair da Conta</h6>
+                        <p class="text-muted small mb-0">
+                            Encerrar sua sessão no sistema
+                        </p>
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i>Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voltar -->
+        <div class="mt-4">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Voltar ao Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card.border-2 {
+        border-width: 2px !important;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-check:checked + .card {
+        border-color: var(--bs-primary) !important;
+        box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.1);
+    }
+    
+    .card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar Movimentação - Gestão Financeira{% endblock %}
+
+{% block content %}
+<div class="modo-simples">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Voltar -->
+            <div class="mb-4">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </a>
+            </div>
+
+            <!-- Card Principal -->
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <i class="fas fa-plus-circle fa-4x text-primary mb-3"></i>
+                        <h1 class="display-6 fw-bold">Adicionar Movimentação</h1>
+                        <p class="lead text-muted">Preencha os campos abaixo</p>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('adicionar_transacao') }}">
+                        <!-- Tipo -->
+                        <div class="mb-5">
+                            <label class="form-label fw-bold fs-4 mb-3">
+                                <i class="fas fa-exchange-alt me-2"></i>É uma RECEITA ou DESPESA?
+                            </label>
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <input 
+                                        type="radio" 
+                                        class="btn-check" 
+                                        name="tipo" 
+                                        id="tipo_receita" 
+                                        value="receita" 
+                                        required
+                                    >
+                                    <label class="btn btn-outline-success w-100 py-5" for="tipo_receita">
+                                        <i class="fas fa-arrow-down fa-3x d-block mb-3"></i>
+                                        <h3 class="mb-2">RECEBI</h3>
+                                        <p class="mb-0">Dinheiro que entrou</p>
+                                    </label>
+                                </div>
+                                <div class="col-6">
+                                    <input 
+                                        type="radio" 
+                                        class="btn-check" 
+                                        name="tipo" 
+                                        id="tipo_despesa" 
+                                        value="despesa"
+                                        required
+                                    >
+                                    <label class="btn btn-outline-danger w-100 py-5" for="tipo_despesa">
+                                        <i class="fas fa-arrow-up fa-3x d-block mb-3"></i>
+                                        <h3 class="mb-2">GASTEI</h3>
+                                        <p class="mb-0">Dinheiro que saiu</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Valor -->
+                        <div class="mb-5">
+                            <label for="valor" class="form-label fw-bold fs-4">
+                                <i class="fas fa-dollar-sign me-2"></i>Qual foi o valor?
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text fs-3">R$</span>
+                                <input 
+                                    type="number" 
+                                    class="form-control fs-3" 
+                                    id="valor" 
+                                    name="valor" 
+                                    placeholder="0.00"
+                                    step="0.01"
+                                    min="0.01"
+                                    required
+                                    autofocus
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-5">
+                            <label for="descricao" class="form-label fw-bold fs-4">
+                                <i class="fas fa-comment me-2"></i>O que foi?
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control form-control-lg fs-4" 
+                                id="descricao" 
+                                name="descricao" 
+                                placeholder="Ex: Conta de luz, Supermercado..."
+                                required
+                            >
+                        </div>
+
+                        <!-- Categoria -->
+                        <div class="mb-5">
+                            <label for="categoria" class="form-label fw-bold fs-4">
+                                <i class="fas fa-tags me-2"></i>Categoria
+                            </label>
+                            <select class="form-select form-select-lg fs-4" id="categoria" name="categoria" required>
+                                <option value="">Escolha uma categoria</option>
+                                <option value="Alimentação">🍽️ Alimentação</option>
+                                <option value="Moradia">🏠 Moradia</option>
+                                <option value="Transporte">🚗 Transporte</option>
+                                <option value="Saúde">💊 Saúde</option>
+                                <option value="Lazer">🎮 Lazer</option>
+                                <option value="Educação">📚 Educação</option>
+                                <option value="Salário">💰 Salário</option>
+                                <option value="Vendas">🛒 Vendas</option>
+                                <option value="Outros">📋 Outros</option>
+                            </select>
+                        </div>
+
+                        <!-- Data -->
+                        <div class="mb-5">
+                            <label for="data" class="form-label fw-bold fs-4">
+                                <i class="fas fa-calendar me-2"></i>Quando foi?
+                            </label>
+                            <input 
+                                type="date" 
+                                class="form-control form-control-lg fs-4" 
+                                id="data" 
+                                name="data" 
+                                value="{{ today }}"
+                                required
+                            >
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-primary btn-lg py-4">
+                                <i class="fas fa-check-circle fa-2x d-block mb-2"></i>
+                                <h4 class="mb-0">SALVAR</h4>
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg py-3">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Define data de hoje como padrão
+    document.getElementById('data').valueAsDate = new Date();
+</script>
+{% endblock %}

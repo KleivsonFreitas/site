@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Gestão Financeira{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="fw-bold">
+            <i class="fas fa-chart-line me-2" aria-hidden="true"></i>Dashboard Financeiro
+        </h1>
+        <p class="text-muted mb-0">Bem-vindo de volta, {{ session.user_nome }}</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('adicionar_transacao') }}" class="btn btn-primary shadow-sm">
+            <i class="fas fa-plus me-2" aria-hidden="true"></i>Nova Transação
+        </a>
+        <a href="{{ url_for('relatorios') }}" class="btn btn-outline-primary shadow-sm ms-1">
+            <i class="fas fa-chart-bar me-2" aria-hidden="true"></i>Relatórios
+        </a>
+    </div>
+</div>
+
+<!-- Cards de Resumo -->
+<div class="row mb-4 g-3">
+    <!-- Saldo Total -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase fw-bold">Saldo Total</p>
+                        <h2 class="fw-bold mb-0 {% if saldo >= 0 %}text-primary{% else %}text-danger{% endif %}">
+                            R$ {{ "%.2f"|format(saldo) }}
+                        </h2>
+                    </div>
+                    <div class="p-3 rounded-circle {% if saldo >= 0 %}bg-primary{% else %}bg-danger{% endif %} bg-opacity-10">
+                        <i class="fas fa-wallet fa-2x {% if saldo >= 0 %}text-primary{% else %}text-danger{% endif %}" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <small class="text-muted">
+                    {% if saldo >= 0 %}
+                        <i class="fas fa-check-circle text-success me-1" aria-hidden="true"></i>Situação positiva
+                    {% else %}
+                        <i class="fas fa-exclamation-triangle text-danger me-1" aria-hidden="true"></i>Atenção necessária
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receitas do Mês -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase fw-bold">Receitas do Mês</p>
+                        <h2 class="fw-bold text-success mb-0">
+                            R$ {{ "%.2f"|format(mes_atual.receitas) }}
+                        </h2>
+                    </div>
+                    <div class="p-3 rounded-circle bg-success bg-opacity-10">
+                        <i class="fas fa-arrow-up fa-2x text-success" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <small class="text-muted">
+                    <i class="fas fa-calendar me-1" aria-hidden="true"></i>Mês Atual
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Despesas do Mês -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase fw-bold">Despesas do Mês</p>
+                        <h2 class="fw-bold text-danger mb-0">
+                            R$ {{ "%.2f"|format(mes_atual.despesas) }}
+                        </h2>
+                    </div>
+                    <div class="p-3 rounded-circle bg-danger bg-opacity-10">
+                        <i class="fas fa-arrow-down fa-2x text-danger" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <small class="text-muted">
+                    {% set economia = mes_atual.receitas - mes_atual.despesas %}
+                    {% if economia >= 0 %}
+                        <i class="fas fa-piggy-bank text-success me-1" aria-hidden="true"></i>Economizou R$ {{ "%.2f"|format(economia) }}
+                    {% else %}
+                        <i class="fas fa-exclamation-circle text-danger me-1" aria-hidden="true"></i>Gastou R$ {{ "%.2f"|format(-economia) }} a mais
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gráfico e Transações Recentes -->
+<div class="row g-4">
+    <!-- Últimas Transações -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+            
+            <!-- CABEÇALHO DA TABELA COM BOTÕES DE EXPORTAR -->
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="fas fa-list me-2 text-primary" aria-hidden="true"></i>Transações Recentes
+                </h5>
+                
+                <!-- Barra de Ferramentas (Exportar + Adicionar) -->
+                <div class="d-flex align-items-center gap-2">
+                    <div class="btn-group" role="group" aria-label="Ferramentas de exportação">
+                        <a href="{{ url_for('exportar_excel') }}" class="btn btn-sm btn-outline-success" title="Baixar Excel" aria-label="Exportar tabela para Excel">
+                            <i class="fas fa-file-excel" aria-hidden="true"></i> Excel
+                        </a>
+                        <a href="{{ url_for('exportar_pdf') }}" class="btn btn-sm btn-outline-danger" title="Baixar PDF" aria-label="Exportar tabela para PDF">
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i> PDF
+                        </a>
+                    </div>
+                    <a href="{{ url_for('adicionar_transacao') }}" class="btn btn-sm btn-primary d-none d-md-inline-flex align-items-center">
+                        <i class="fas fa-plus me-1" aria-hidden="true"></i> Adicionar
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th class="text-end">Valor</th>
+                                <th class="text-center pe-4">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if transacoes %}
+                                {% for transacao in transacoes %}
+                                <tr>
+                                    <td class="ps-4 text-muted font-monospace small">
+                                        {{ transacao.data.strftime('%d/%m/%Y') }}
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark">{{ transacao.descricao }}</strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill border fw-normal text-dark bg-light">
+                                            {{ transacao.categoria }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if transacao.tipo == 'receita' %}
+                                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-10 rounded-pill">
+                                                <i class="fas fa-arrow-up me-1" aria-hidden="true"></i>Receita
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-10 rounded-pill">
+                                                <i class="fas fa-arrow-down me-1" aria-hidden="true"></i>Despesa
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end fw-bold {% if transacao.tipo == 'receita' %}text-success{% else %}text-danger{% endif %}">
+                                        {% if transacao.tipo == 'receita' %}+{% else %}-{% endif %}
+                                        R$ {{ "%.2f"|format(transacao.valor) }}
+                                    </td>
+                                    <td class="text-center pe-4">
+                                        <a href="{{ url_for('excluir_transacao', id=transacao.id) }}" 
+                                           class="btn btn-sm btn-link text-danger p-0"
+                                           aria-label="Excluir transação {{ transacao.descricao }}"
+                                           onclick="return confirm('Confirma a exclusão desta transação?')">
+                                            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-5">
+                                        <div class="text-muted opacity-50 mb-3">
+                                            <i class="fas fa-inbox fa-3x" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="text-muted mb-3">Nenhuma transação registrada ainda.</p>
+                                        <a href="{{ url_for('adicionar_transacao') }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-plus me-1" aria-hidden="true"></i>Adicionar Primeira
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumo Lateral -->
+    <div class="col-lg-4">
+        <!-- Ações Rápidas -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h6 class="mb-0 fw-bold text-dark">
+                    <i class="fas fa-bolt me-2 text-warning" aria-hidden="true"></i>Ações Rápidas
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('adicionar_transacao') }}" class="btn btn-success shadow-sm">
+                        <i class="fas fa-plus-circle me-2" aria-hidden="true"></i>Nova Transação
+                    </a>
+                    <a href="{{ url_for('relatorios') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-chart-bar me-2" aria-hidden="true"></i>Ver Relatórios
+                    </a>
+                    <a href="{{ url_for('configuracoes') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-cog me-2" aria-hidden="true"></i>Configurações
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dicas -->
+        <div class="card border-info bg-info bg-opacity-10 border-0">
+            <div class="card-body">
+                <h6 class="mb-3 fw-bold text-info-emphasis">
+                    <i class="fas fa-lightbulb me-2" aria-hidden="true"></i>Dica Financeira
+                </h6>
+                <p class="small mb-2 text-dark">
+                    <strong>Regra 50-30-20:</strong>
+                </p>
+                <ul class="small mb-0 text-dark">
+                    <li>50% para necessidades</li>
+                    <li>30% para desejos</li>
+                    <li>20% para poupança</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

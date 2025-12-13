@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - Gestão Financeira{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                    <h2 class="fw-bold">Criar Conta</h2>
+                    <p class="text-muted">Preencha os dados abaixo para começar</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('registro') }}" id="formRegistro">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label fw-semibold">
+                            <i class="fas fa-user me-2"></i>Nome Completo
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg" 
+                            id="nome" 
+                            name="nome" 
+                            placeholder="Digite seu nome completo"
+                            required
+                            autofocus
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">
+                            <i class="fas fa-envelope me-2"></i>Email
+                        </label>
+                        <input 
+                            type="email" 
+                            class="form-control form-control-lg" 
+                            id="email" 
+                            name="email" 
+                            placeholder="seu@email.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="senha" class="form-label fw-semibold">
+                            <i class="fas fa-lock me-2"></i>Senha
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control form-control-lg" 
+                            id="senha" 
+                            name="senha" 
+                            placeholder="Mínimo 6 caracteres"
+                            required
+                            minlength="6"
+                        >
+                        <small class="text-muted">Mínimo 6 caracteres</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confirmar_senha" class="form-label fw-semibold">
+                            <i class="fas fa-lock me-2"></i>Confirmar Senha
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control form-control-lg" 
+                            id="confirmar_senha" 
+                            name="confirmar_senha" 
+                            placeholder="Digite a senha novamente"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold d-block mb-3">
+                            <i class="fas fa-sliders-h me-2"></i>Escolha seu Modo de Interface
+                        </label>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input 
+                                    type="radio" 
+                                    class="btn-check" 
+                                    name="modo" 
+                                    id="modo_simples" 
+                                    value="simples" 
+                                    checked
+                                >
+                                <label class="btn btn-outline-primary w-100 py-3" for="modo_simples">
+                                    <i class="fas fa-smile fa-2x d-block mb-2"></i>
+                                    <strong>Modo Simples</strong>
+                                    <small class="d-block mt-2">Interface clara e intuitiva</small>
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input 
+                                    type="radio" 
+                                    class="btn-check" 
+                                    name="modo" 
+                                    id="modo_avancado" 
+                                    value="avancado"
+                                >
+                                <label class="btn btn-outline-success w-100 py-3" for="modo_avancado">
+                                    <i class="fas fa-chart-line fa-2x d-block mb-2"></i>
+                                    <strong>Modo Avançado</strong>
+                                    <small class="d-block mt-2">Gráficos e relatórios</small>
+                                </label>
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mt-2">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Você pode mudar o modo depois nas configurações
+                        </small>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Criar Conta
+                        </button>
+                    </div>
+                </form>
+
+                <hr>
+
+                <div class="text-center">
+                    <p class="mb-0">
+                        Já tem uma conta? 
+                        <a href="{{ url_for('login') }}" class="text-primary fw-semibold">
+                            Faça login aqui
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Validação de senha
+    document.getElementById('formRegistro').addEventListener('submit', function(e) {
+        const senha = document.getElementById('senha').value;
+        const confirmarSenha = document.getElementById('confirmar_senha').value;
+        
+        if (senha !== confirmarSenha) {
+            e.preventDefault();
+            alert('As senhas não coincidem!');
+            document.getElementById('confirmar_senha').focus();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

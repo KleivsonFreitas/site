@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Minhas Finanças - Gestão Financeira{% endblock %}
+
+{% block content %}
+<div class="modo-simples">
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold">
+                <i class="fas fa-home me-2"></i>Olá, {{ session.user_nome }}!
+            </h1>
+            <p class="lead text-muted">Aqui está um resumo das suas finanças</p>
+        </div>
+    </div>
+
+    <!-- Card de Saldo Principal -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="saldo-card">
+                <h3 class="mb-2">
+                    <i class="fas fa-wallet me-2"></i>Seu Saldo Atual
+                </h3>
+                <h1 class="stat-value mb-0">
+                    R$ {{ "%.2f"|format(saldo) }}
+                </h1>
+                <p class="mb-0 mt-2">
+                    {% if saldo >= 0 %}
+                        <i class="fas fa-arrow-up me-1"></i>
+                        Você está no positivo!
+                    {% else %}
+                        <i class="fas fa-arrow-down me-1"></i>
+                        Atenção: saldo negativo
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receitas e Despesas do Mês -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="receita-card stat-card">
+                <div class="stat-label">
+                    <i class="fas fa-arrow-down me-2"></i>RECEBI ESTE MÊS
+                </div>
+                <div class="stat-value">
+                    R$ {{ "%.2f"|format(mes_atual.receitas) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="despesa-card stat-card">
+                <div class="stat-label">
+                    <i class="fas fa-arrow-up me-2"></i>GASTEI ESTE MÊS
+                </div>
+                <div class="stat-value">
+                    R$ {{ "%.2f"|format(mes_atual.despesas) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botões de Ação -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-3">
+            <a href="{{ url_for('adicionar_transacao') }}" class="btn btn-success w-100 py-4 rounded-4">
+                <i class="fas fa-plus-circle fa-2x d-block mb-2"></i>
+                <h5 class="mb-0">Adicionar Receita ou Despesa</h5>
+            </a>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="d-flex flex-column gap-2">
+                <a href="{{ url_for('exportar_pdf') }}"
+                   class="btn btn-outline-dark w-100 py-3 rounded-4 d-flex align-items-center justify-content-center"
+                   role="button"
+                   aria-label="Exportar movimentações em PDF">
+                    <i class="fas fa-file-pdf fa-lg me-2" aria-hidden="true"></i>
+                    Exportar PDF
+                </a>
+                <a href="{{ url_for('exportar_excel') }}"
+                   class="btn btn-outline-success w-100 py-3 rounded-4 d-flex align-items-center justify-content-center"
+                   role="button"
+                   aria-label="Exportar movimentações em Excel">
+                    <i class="fas fa-file-excel fa-lg me-2" aria-hidden="true"></i>
+                    Exportar Excel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Últimas Movimentações -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-list me-2"></i>Últimas Movimentações
+                    </h4>
+                </div>
+                <div class="card-body p-0">
+                    {% if transacoes %}
+                        {% for transacao in transacoes %}
+                        <div class="transacao-item">
+                            <div class="row align-items-center">
+                                <div class="col-2 text-center">
+                                    {% if transacao.tipo == 'receita' %}
+                                        <i class="fas fa-arrow-down fa-2x text-success"></i>
+                                    {% else %}
+                                        <i class="fas fa-arrow-up fa-2x text-danger"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="mb-1">{{ transacao.descricao }}</h5>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        {{ transacao.data.strftime('%d/%m/%Y') }}
+                                    </small>
+                                    <br>
+                                    <span class="badge {% if transacao.tipo == 'receita' %}badge-receita{% else %}badge-despesa{% endif %} mt-1">
+                                        {{ transacao.categoria }}
+                                    </span>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <h4 class="mb-0 {% if transacao.tipo == 'receita' %}text-success{% else %}text-danger{% endif %}">
+                                        {% if transacao.tipo == 'receita' %}+{% else %}-{% endif %}
+                                        R$ {{ "%.2f"|format(transacao.valor) }}
+                                    </h4>
+                                </div>
+                                <div class="col-1 text-end">
+                                    <a href="{{ url_for('excluir_transacao', id=transacao.id) }}" 
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('Tem certeza que deseja excluir esta movimentação?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Você ainda não tem nenhuma movimentação.</p>
+                            <a href="{{ url_for('adicionar_transacao') }}" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Adicionar a Primeira
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dica do Dia -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info border-0">
+                <h5 class="alert-heading">
+                    <i class="fas fa-lightbulb me-2"></i>Dica do Dia
+                </h5>
+                <p class="mb-0">
+                    Registre suas movimentações diariamente para ter um controle preciso das suas finanças. 
+                    Pequenos gastos acumulados podem fazer diferença no final do mês!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

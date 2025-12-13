@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}Relatórios - Gestão Financeira{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="fw-bold">
+            <i class="fas fa-chart-bar me-2" aria-hidden="true"></i>Relatórios Financeiros
+        </h1>
+        <p class="text-muted">Análise detalhada das suas finanças</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2" aria-hidden="true"></i>Voltar
+        </a>
+    </div>
+</div>
+
+<!-- Filtros -->
+<div class="card mb-4 shadow-sm border-0">
+    <div class="card-body">
+        <form class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold">Período</label>
+                <select class="form-select shadow-none">
+                    <option selected>Este mês</option>
+                    <option>Últimos 3 meses</option>
+                    <option>Últimos 6 meses</option>
+                    <option>Este ano</option>
+                    <option>Personalizado</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold">Tipo</label>
+                <select class="form-select shadow-none">
+                    <option selected>Todos</option>
+                    <option>Receitas</option>
+                    <option>Despesas</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold">Categoria</label>
+                <select class="form-select shadow-none">
+                    <option selected>Todas</option>
+                    <option>Alimentação</option>
+                    <option>Moradia</option>
+                    <option>Transporte</option>
+                    <option>Saúde</option>
+                    <option>Outros</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold">&nbsp;</label>
+                <button type="button" class="btn btn-primary w-100 shadow-sm">
+                    <i class="fas fa-filter me-2" aria-hidden="true"></i>Filtrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Gráfico de Despesas por Categoria -->
+<div class="row mb-4">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-pie me-2 text-primary" aria-hidden="true"></i>Despesas por Categoria
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if despesas_categoria %}
+                    <canvas id="chartDespesasCategoria" style="max-height: 300px;"></canvas>
+                    
+                    <!-- Legenda -->
+                    <div class="mt-4">
+                        {% for item in despesas_categoria[:5] %}
+                        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <span class="small">
+                                <i class="fas fa-circle text-danger me-2" aria-hidden="true"></i>{{ item.categoria }}
+                            </span>
+                            <strong class="text-danger">R$ {{ "%.2f"|format(item.total) }}</strong>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-chart-pie fa-3x text-muted mb-3 opacity-50" aria-hidden="true"></i>
+                        <p class="text-muted">Nenhuma despesa registrada ainda.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Evolução Mensal -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2 text-primary" aria-hidden="true"></i>Evolução Mensal
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if evolucao_mensal %}
+                    <canvas id="chartEvolucao" style="max-height: 300px;"></canvas>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-chart-line fa-3x text-muted mb-3 opacity-50" aria-hidden="true"></i>
+                        <p class="text-muted">Sem dados suficientes para análise.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabela Detalhada -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <!-- CABEÇALHO COM BOTÕES DE EXPORTAÇÃO -->
+            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                <h5 class="mb-0">
+                    <i class="fas fa-table me-2 text-primary" aria-hidden="true"></i>Resumo por Categoria
+                </h5>
+                
+                <!-- Botões Funcionais -->
+                <div class="btn-group" role="group" aria-label="Exportar dados">
+                    <a href="{{ url_for('exportar_excel') }}" class="btn btn-sm btn-outline-success" aria-label="Baixar relatório em Excel">
+                        <i class="fas fa-file-excel me-2" aria-hidden="true"></i>Excel
+                    </a>
+                    <a href="{{ url_for('exportar_pdf') }}" class="btn btn-sm btn-outline-danger" aria-label="Baixar relatório em PDF">
+                        <i class="fas fa-file-pdf me-2" aria-hidden="true"></i>PDF
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Categoria</th>
+                                <th class="text-center">Quantidade</th>
+                                <th class="text-end">Total</th>
+                                <th class="text-end">Impacto</th>
+                                <th class="text-center pe-4">Tendência</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if despesas_categoria %}
+                                {% set total_geral = despesas_categoria|sum(attribute='total') %}
+                                {% for item in despesas_categoria %}
+                                <tr>
+                                    <td class="ps-4">
+                                        <i class="fas fa-circle text-danger me-2 small" aria-hidden="true"></i>
+                                        <strong class="text-dark">{{ item.categoria }}</strong>
+                                    </td>
+                                    <td class="text-center text-muted">-</td>
+                                    <td class="text-end">
+                                        <strong class="text-danger">
+                                            R$ {{ "%.2f"|format(item.total) }}
+                                        </strong>
+                                    </td>
+                                    <td class="text-end">
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-10">
+                                            {{ "%.1f"|format((item.total / total_geral * 100)) }}%
+                                        </span>
+                                    </td>
+                                    <td class="text-center pe-4">
+                                        <i class="fas fa-minus text-muted small" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="table-light fw-bold border-top-2">
+                                    <td class="ps-4">TOTAL GERAL</td>
+                                    <td class="text-center">-</td>
+                                    <td class="text-end text-danger">
+                                        R$ {{ "%.2f"|format(total_geral) }}
+                                    </td>
+                                    <td class="text-end">100%</td>
+                                    <td></td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <i class="fas fa-inbox fa-3x text-muted mb-3 opacity-50" aria-hidden="true"></i>
+                                        <p class="text-muted mb-0">Nenhuma despesa registrada.</p>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Insights e Dicas -->
+<div class="row mt-4 mb-5">
+    <div class="col-md-6 mb-3">
+        <div class="card border-success h-100 shadow-sm">
+            <div class="card-header bg-success bg-opacity-10 border-0">
+                <h6 class="mb-0 text-success fw-bold">
+                    <i class="fas fa-lightbulb me-2" aria-hidden="true"></i>Insight Positivo
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-0 text-dark">
+                    Suas receitas estão superando suas despesas. Continue assim para manter uma saúde financeira equilibrada!
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-3">
+        <div class="card border-warning h-100 shadow-sm">
+            <div class="card-header bg-warning bg-opacity-10 border-0">
+                <h6 class="mb-0 text-warning fw-bold">
+                    <i class="fas fa-exclamation-triangle me-2" aria-hidden="true"></i>Ponto de Atenção
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-0 text-dark">
+                    A categoria <strong>"Alimentação"</strong> representa a maior parte dos seus gastos. 
+                    Considere planejar refeições para economizar.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    // Dados do Python
+    const despesasCategoria = {{ despesas_categoria|tojson }};
+    const evolucaoMensal = {{ evolucao_mensal|tojson }};
+
+    // Gráfico de Despesas por Categoria
+    if (despesasCategoria && despesasCategoria.length > 0) {
+        const ctxCategoria = document.getElementById('chartDespesasCategoria');
+        new Chart(ctxCategoria, {
+            type: 'doughnut',
+            data: {
+                labels: despesasCategoria.map(item => item.categoria),
+                datasets: [{
+                    data: despesasCategoria.map(item => item.total),
+                    backgroundColor: [
+                        '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+
+    // Gráfico de Evolução Mensal
+    if (evolucaoMensal && evolucaoMensal.length > 0) {
+        // Processar dados
+        const meses = [...new Set(evolucaoMensal.map(item => item.mes))].sort();
+        const receitas = meses.map(mes => {
+            const item = evolucaoMensal.find(e => e.mes === mes && e.tipo === 'receita');
+            return item ? item.total : 0;
+        });
+        const despesas = meses.map(mes => {
+            const item = evolucaoMensal.find(e => e.mes === mes && e.tipo === 'despesa');
+            return item ? item.total : 0;
+        });
+
+        const ctxEvolucao = document.getElementById('chartEvolucao');
+        new Chart(ctxEvolucao, {
+            type: 'line',
+            data: {
+                labels: meses.map(m => {
+                    const [ano, mes] = m.split('-');
+                    return mes + '/' + ano;
+                }),
+                datasets: [
+                    {
+                        label: 'Receitas',
+                        data: receitas,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Despesas',
+                        data: despesas,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            borderDash: [2, 2]
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

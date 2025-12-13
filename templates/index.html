@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Gestão Financeira{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row align-items-center py-5">
+    <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-4">
+            Controle suas Finanças de Forma <span class="text-primary">Simples</span>
+        </h1>
+        <p class="lead mb-4">
+            Sistema de gestão financeira pensado para todos: desde iniciantes até usuários avançados. 
+            Organize seus gastos, visualize seu saldo e tome decisões financeiras com segurança.
+        </p>
+        <div class="d-grid gap-3 d-md-flex">
+            <a href="{{ url_for('registro') }}" class="btn btn-primary btn-lg px-4">
+                <i class="fas fa-user-plus me-2"></i>Começar Agora
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg px-4">
+                <i class="fas fa-sign-in-alt me-2"></i>Já Tenho Conta
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6 text-center mt-5 mt-lg-0">
+        <i class="fas fa-chart-line" style="font-size: 15rem; color: #e0e7ff;"></i>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mt-5 pt-5">
+    <div class="col-12 text-center mb-5">
+        <h2 class="display-5 fw-bold">Por que usar nosso sistema?</h2>
+        <p class="lead text-muted">Funcionalidades pensadas para facilitar sua vida financeira</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Feature 1 -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-mobile-alt fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title fw-bold">Interface Simples</h5>
+                <p class="card-text text-muted">
+                    Botões grandes, cores claras e navegação intuitiva. 
+                    Perfeito para quem não tem familiaridade com tecnologia.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-chart-bar fa-3x text-success"></i>
+                </div>
+                <h5 class="card-title fw-bold">Relatórios Avançados</h5>
+                <p class="card-text text-muted">
+                    Gráficos detalhados, análise de categorias e evolução mensal. 
+                    Para quem quer controle total.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature 3 -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-shield-alt fa-3x text-danger"></i>
+                </div>
+                <h5 class="card-title fw-bold">Seguro e Privado</h5>
+                <p class="card-text text-muted">
+                    Seus dados são criptografados e protegidos. 
+                    Apenas você tem acesso às suas informações.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modes Section -->
+<div class="row mt-5 pt-5 bg-light rounded-3 p-5">
+    <div class="col-12 text-center mb-4">
+        <h2 class="display-6 fw-bold">Dois Modos. Uma Solução.</h2>
+        <p class="lead text-muted">Escolha o modo que melhor se adapta ao seu perfil</p>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 border-primary">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-smile me-2"></i>Modo Simples</h4>
+            </div>
+            <div class="card-body">
+                <h5 class="text-primary mb-3">Para Iniciantes</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Botões grandes e claros</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Apenas o essencial</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Visualização de saldo simples</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Registro rápido de receitas/despesas</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Perfeito para aposentados e iniciantes</li>
+               
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 border-success">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Modo Avançado</h4>
+            </div>
+            <div class="card-body">
+                <h5 class="text-success mb-3">Para Experientes</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Gráficos e relatórios detalhados</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Análise por categoria</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Evolução mensal e anual</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Filtros e exportação de dados</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Ideal para empreendedores</li>
+                   
+                    </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="row mt-5 py-5">
+    <div class="col-12 text-center">
+        <h2 class="display-5 fw-bold mb-4">Pronto para começar?</h2>
+        <p class="lead mb-4">Crie sua conta gratuitamente e comece a organizar suas finanças hoje mesmo!</p>
+        <a href="{{ url_for('registro') }}" class="btn btn-primary btn-lg px-5">
+            <i class="fas fa-rocket me-2"></i>Criar Conta Grátis
+        </a>
+    </div>
+</div>
+{% endblock %}

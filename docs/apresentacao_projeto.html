@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação - Simplifica Finanças</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            min-height: 700px;
+            animation: fadeIn 0.6s ease;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            color: #999;
+            font-size: 16px;
+            font-weight: 600;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 56px;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 42px;
+            color: #333;
+            margin-bottom: 30px;
+            border-bottom: 5px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 32px;
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-size: 24px;
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 22px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 26px;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+
+        .lead {
+            font-size: 24px;
+            color: #666;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 45px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 28px;
+            top: -2px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 16px;
+            border: 3px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(102,126,234,0.3);
+            border-color: #764ba2;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 26px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            font-size: 20px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .tech-item {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .tech-item span {
+            display: block;
+            font-size: 56px;
+            margin-bottom: 15px;
+        }
+
+        .tech-item p {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 0;
+        }
+
+        .tech-item small {
+            display: block;
+            font-size: 16px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102,126,234,0.4);
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            background: #f8f9fa;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 0 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            font-size: 22px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            font-size: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparison-table .highlight {
+            background: #d4edda;
+            font-weight: 600;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .team-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .team-role {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .problem-card {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 6px solid #ef4444;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .problem-card:before {
+            content: "⚠️";
+            font-size: 32px;
+            margin-right: 15px;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-left: 6px solid #10b981;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .solution-card h3 {
+            color: #10b981;
+            margin-top: 0;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .demo-section img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-section h3 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.9);
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 18px 50px;
+            font-size: 22px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 6px solid #f59e0b;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .highlight-box strong {
+            color: #f59e0b;
+            font-size: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .feature-grid, .team-grid, .tech-stack {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .slide {
+                padding: 40px 30px;
+                min-height: 600px;
+            }
+            h1 { font-size: 40px; }
+            h2 { font-size: 32px; }
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                padding: 20px;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            .progress-bar {
+                margin: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SLIDE 1: CAPA -->
+        <div class="slide active">
+            <div class="slide-number">1/12</div>
+            <div style="text-align: center; padding-top: 100px;">
+                <h1>💰 Simplifica Finanças</h1>
+                <p class="subtitle">Sistema de Gestão Financeira Pessoal</p>
+                <p class="lead">
+                    Controle financeiro inteligente com interface adaptativa para todos os perfis de usuários
+                </p>
+                <div style="margin-top: 60px;">
+                    <p style="font-size: 20px; color: #999;">
+                        <strong>Projeto A3</strong> - Gestão e Qualidade de Software<br>
+                        FPB • 2025.2
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: O PROBLEMA -->
+        <div class="slide">
+            <div class="slide-number">2/12</div>
+            <h2>😰 O Problema</h2>
+            
+            <div class="problem-card">
+                <strong style="font-size: 24px;">Apps financeiros são complexos demais</strong>
+                <p style="margin-top: 15px; margin-bottom: 0; font-size: 20px;">
+                    Exigem cadastro de bancos, sincronização de contas e configurações complicadas
+                </p>
+            </div>
+
+            <div class="problem-card">
+                <strong style="font-size: 24px;">Interface única não atende todos</strong>
+                <p style="margin-top: 15px; margin-bottom: 0; font-size: 20px;">
+                    Iniciantes se perdem em telas cheias de gráficos e informações técnicas
+                </p>
+            </div>
+
+            <div class="problem-card">
+                <strong style="font-size: 24px;">Alta taxa de abandono</strong>
+                <p style="margin-top: 15px; margin-bottom: 0; font-size: 20px;">
+                    Usuários desistem antes mesmo de registrar a primeira transação
+                </p>
+            </div>
+
+            <div class="problem-card">
+                <strong style="font-size: 24px;">Falta de motivação</strong>
+                <p style="margin-top: 15px; margin-bottom: 0; font-size: 20px;">
+                    Difícil acompanhar progresso de metas e objetivos financeiros
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <h3 style="color: #ef4444; font-size: 32px;">
+                    "Como criar um sistema financeiro que QUALQUER PESSOA possa usar?"
+                </h3>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: A SOLUÇÃO -->
+        <div class="slide">
+            <div class="slide-number">3/12</div>
+            <h2>💡 Nossa Solução</h2>
+            
+            <div class="solution-card">
+                <h3>🎯 Simplicidade em Primeiro Lugar</h3>
+                <p style="margin: 0; font-size: 22px;">
+                    Sistema direto ao ponto: registre receitas e despesas <strong>sem burocracia</strong>. 
+                    Não precisa cadastrar banco, conta ou cartão!
+                </p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🟢</div>
+                    <div class="feature-title">Modo Simples</div>
+                    <div class="feature-desc">
+                        <strong>Para iniciantes:</strong> Botões grandes, cores claras, apenas o essencial.
+                        Perfeito para idosos e pessoas com pouca familiaridade com tecnologia.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔵</div>
+                    <div class="feature-title">Modo Avançado</div>
+                    <div class="feature-desc">
+                        <strong>Para experientes:</strong> Gráficos interativos, relatórios detalhados, 
+                        análises de tendências. Ideal para empreendedores.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Registro Rápido</div>
+                    <div class="feature-desc">
+                        Apenas 4 campos: tipo, valor, descrição e categoria. 
+                        <strong>Em 10 segundos</strong> você registra uma transação!
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Metas Visuais</div>
+                    <div class="feature-desc">
+                        Acompanhe economias com barras de progresso coloridas e animadas. 
+                        Gamificação para motivar!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: DIFERENCIAIS -->
+        <div class="slide">
+            <div class="slide-number">4/12</div>
+            <h2>✨ Diferenciais Competitivos</h2>
+
+            <div class="comparison-table">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Outros Apps</th>
+                            <th>Simplifica Finanças</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sincronização Bancária</strong></td>
+                            <td>✅ Obrigatória</td>
+                            <td class="highlight">❌ Não precisa!</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interface</strong></td>
+                            <td>❌ Única para todos</td>
+                            <td class="highlight">✅ 2 Modos Adaptativos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Curva de Aprendizado</strong></td>
+                            <td>❌ Alta (complicado)</td>
+                            <td class="highlight">✅ Baixa (intuitivo)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sistema de Metas</strong></td>
+                            <td>⚠️ Básico</td>
+                            <td class="highlight">✅ Avançado + Gamificação</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Preço</strong></td>
+                            <td>❌ R$ 9,90-29,90/mês</td>
+                            <td class="highlight">✅ 100% Gratuito</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backup Automático</strong></td>
+                            <td>⚠️ Pago</td>
+                            <td class="highlight">✅ Incluído</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 40px;">
+                <strong>💎 Nosso Grande Diferencial:</strong>
+                <p style="font-size: 22px; margin-top: 15px; margin-bottom: 0;">
+                    Somos o <strong>ÚNICO</strong> sistema que oferece interfaces adaptativas 
+                    sem perder funcionalidades. Atendemos desde a dona de casa até o CEO de startup!
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: FUNCIONALIDADES -->
+        <div class="slide">
+            <div class="slide-number">5/12</div>
+            <h2>⚡ Funcionalidades Principais</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💸</div>
+                    <div class="feature-title">Gestão de Transações</div>
+                    <div class="feature-desc">
+                        • Cadastro rápido de receitas/despesas<br>
+                        • Categorização automática<br>
+                        • Cálculo de saldo em tempo real<br>
+                        • Histórico completo
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Metas Financeiras</div>
+                    <div class="feature-desc">
+                        • Criação ilimitada de metas<br>
+                        • Progresso visual animado<br>
+                        • Alertas de prazo<br>
+                        • Notificações de conquista
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Relatórios Avançados</div>
+                    <div class="feature-desc">
+                        • Gráficos de pizza e linha<br>
+                        • Análise por categoria<br>
+                        • Evolução temporal<br>
+                        • Insights automáticos
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📥</div>
+                    <div class="feature-title">Exportação de Dados</div>
+                    <div class="feature-desc">
+                        • Excel (.xlsx) formatado<br>
+                        • PDF pronto para impressão<br>
+                        • Backup completo do banco<br>
+                        • Agendamento automático
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">Segurança Total</div>
+                    <div class="feature-desc">
+                        • Senhas criptografadas (Scrypt)<br>
+                        • Proteção CSRF<br>
+                        • Sessões seguras<br>
+                        • Isolamento de dados
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-title">Design Responsivo</div>
+                    <div class="feature-desc">
+                        • Funciona em qualquer tela<br>
+                        • Interface adaptável<br>
+                        • Touch-friendly<br>
+                        • PWA pronto
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: TECNOLOGIAS -->
+        <div class="slide">
+            <div class="slide-number">6/12</div>
+            <h2>🛠️ Stack Tecnológica</h2>
+
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <span>🐍</span>
+                    <p>Python 3.10+</p>
+                    <small>Linguagem Principal</small>
+                </div>
+                <div class="tech-item">
+                    <span>🌶️</span>
+                    <p>Flask 3.0</p>
+                    <small>Framework Web</small>
+                </div>
+                <div class="tech-item">
+                    <span>🗄️</span>
+                    <p>MySQL 8.0</p>
+                    <small>Banco de Dados</small>
+                </div>
+                <div class="tech-item">
+                    <span>🎨</span>
+                    <p>Bootstrap 5</p>
+                    <small>Framework CSS</small>
+                </div>
+                <div class="tech-item">
+                    <span>📊</span>
+                    <p>Chart.js 4.4</p>
+                    <small>Gráficos Interativos</small>
+                </div>
+                <div class="tech-item">
+                    <span>🔐</span>
+                    <p>Werkzeug 3.0</p>
+                    <small>Segurança (Scrypt)</small>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 50px;">Por que essas tecnologias?</h3>
+            <ul style="margin-top: 20px;">
+                <li><strong>Python/Flask:</strong> Rapidez no desenvolvimento, código limpo e legível</li>
+                <li><strong>MySQL:</strong> Confiável para dados estruturados e transações financeiras</li>
+                <li><strong>Bootstrap:</strong> Interface profissional sem complexidade desnecessária</li>
+                <li><strong>Chart.js:</strong> Gráficos bonitos e interativos sem bibliotecas pesadas</li>
+            </ul>
+        </div>
+
+        <!-- SLIDE 7: ARQUITETURA -->
+        <div class="slide">
+            <div class="slide-number">7/12</div>
+            <h2>🏗️ Arquitetura do Sistema</h2>
+
+            <div style="background: #f8f9fa; padding: 40px; border-radius: 20px; margin-top: 30px;">
+                <pre style="font-size: 16px; line-height: 1.6; color: #333; font-family: 'Courier New', monospace;">
+┌──────────────────────────────────────────┐
+│         CAMADA DE APRESENTAÇÃO           │
+│  ┌─────────────┐    ┌─────────────┐     │
+│  │   Simples   │    │  Avançado   │     │
+│  │  Botões     │    │  Gráficos   │     │
+│  │  Grandes    │    │  Relatórios │     │
+│  └──────┬──────┘    └──────┬──────┘     │
+└─────────┼──────────────────┼────────────┘
+          │   Templates      │
+          └─────────┬─────────┘
+                    │ HTTP
+                    ▼
+┌──────────────────────────────────────────┐
+│      CAMADA DE CONTROLE (Flask)          │
+│  • /login → Autenticação                 │
+│  • /dashboard → Painel Principal         │
+│  • /metas → Gestão de Objetivos          │
+│  • /relatorios → Análises                │
+│  • /exportar → Downloads                 │
+└─────────────────┬────────────────────────┘
+                  │ SQL
+                  ▼
+┌──────────────────────────────────────────┐
+│    CAMADA DE DADOS (MySQL)               │
+│  ┌─────────┐  ┌──────────┐  ┌────────┐  │
+│  │usuarios │  │transacoes│  │ metas  │  │
+│  └─────────┘  └──────────┘  └────────┘  │
+└──────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <h3 style="margin-top: 40px;">📊 Métricas do Código</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">~1.900</span>
+                    <span class="stat-label">Linhas de Código</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">27 PF</span>
+                    <span class="stat-label">Pontos de Função</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">135h</span>
+                    <span class="stat-label">Esforço Estimado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: TESTES E QUALIDADE -->
+        <div class="slide">
+            <div class="slide-number">8/12</div>
+            <h2>🧪 Qualidade e Testes</h2>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">15</span>
+                    <span class="stat-label">Testes Automatizados</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Taxa de Sucesso</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">~85%</span>
+                    <span class="stat-label">Cobertura de Código</span>
+                </div>
+            </div>
+
+            <h3>Tipos de Testes Implementados</h3>
+            <ul>
+                <li><strong>Testes Unitários (7):</strong> Validação de funções isoladas</li>
+                <li><strong>Testes de Integração (4):</strong> Interação entre componentes</li>
+                <li><strong>Testes Funcionais (4):</strong> Fluxos completos end-to-end</li>
+            </ul>
+
+            <div class="highlight-box" style="margin-top: 40px;">
+                <strong>🏆 Resultado:</strong>
+                <p style="font-size: 22px; margin-top: 15px; margin-bottom: 0;">
+                    <strong>ZERO bugs críticos</strong> encontrados em produção. 
+                    Sistema aprovado em todos os critérios de qualidade!
+                </p>
+            </div>
+
+            <h3 style="margin-top: 40px;">📋 Boas Práticas Aplicadas</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-title">Clean Code</div>
+                    <div class="feature-desc">
+                        Funções pequenas, nomes descritivos, código autoexplicativo
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-title">DRY Principle</div>
+                    <div class="feature-desc">
+                        Código reutilizável, zero duplicação, máxima eficiência
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🏛️</div>
+                    <div class="feature-title">SOLID</div>
+                    <div class="feature-desc">
+                        Separação de responsabilidades, código manutenível
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <div class="feature-title">Documentação</div>
+                    <div class="feature-desc">
+                        README completo, comentários úteis, guias de uso
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: DEMO -->
+        <div class="slide">
+            <div class="slide-number">9/12</div>
+            <h2>🎬 Demonstração</h2>
+
+            <div class="demo-section">
+                <h3 style="color: #667eea; margin-top: 0;">Veja o Sistema em Ação</h3>
+                <p style="font-size: 22px; color: #666; margin-bottom: 30px;">
+                    Screenshots e vídeos completos disponíveis no Google Drive
+                </p>
+                
+                <div style="background: white; padding: 40px; border-radius: 16px; margin-top: 30px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                height: 400px; border-radius: 12px; display: flex; 
+                                align-items: center; justify-content: center; color: white; font-size: 48px;">
+                        📸 🎥 📊
+                    </div>
+                    <p style="margin-top: 20px; color: #999; font-size: 18px;">
+                        Placeholder para screenshots do sistema<br>
+                        (Dashboard, Metas, Relatórios, etc.)
+                    </p>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <a href="https://drive.google.com/drive/folders/1BEIK509JvN_ix2QaX9444uPEb_iNrUY3" 
+                       target="_blank" class="cta-button">
+                        Ver Todas as Imagens e Vídeos →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: EQUIPE -->
+        <div class="slide">
+            <div class="slide-number">10/12</div>
+            <h2>👥 Equipe de Desenvolvimento</h2>
+
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">JV</div>
+                    <div class="team-name">Janary Victor</div>
+                    <div class="team-role">Full-Stack / Arquitetura</div>
+                    <p style="font-size: 16px; color: #999;">RA: 1362416604</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">JK</div>
+                    <div class="team-name">José Kleivson</div>
+                    <div class="team-role">Backend / Banco de Dados</div>
+                    <p style="font-size: 16px; color: #999;">RA: 1362411072</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">DO</div>
+                    <div class="team-name">Daniel Obede</div>
+                    <div class="team-role">Frontend / Testes</div>
+                    <p style="font-size: 16px; color: #999;">RA: 1362112473</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">GJ</div>
+                    <div class="team-name">Gabriel Jonathas</div>
+                    <div class="team-role">Full-Stack / Integração</div>
+                    <p style="font-size: 16px; color: #999;">RA: 1362317022</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">CH</div>
+                    <div class="team-name">Carlos Henrique</div>
+                    <div class="team-role">Backend / Segurança</div>
+                    <p style="font-size: 16px; color: #999;">RA: 1362416272</p>
+                </div>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 30px; border-radius: 16px; margin-top: 50px; text-align: center;">
+                <h3 style="color: #667eea; margin-top: 0;">📚 Informações Acadêmicas</h3>
+                <p style="font-size: 20px; color: #555; margin-bottom: 10px;">
+                    <strong>Instituição:</strong> Faculdade Internacional da Paraíba (FPB)<br>
+                    <strong>Curso:</strong> Ciência da Computação<br>
+                    <strong>Disciplina:</strong> Gestão e Qualidade de Software (A3)<br>
+                    <strong>Orientador:</strong> Prof. Antunes<br>
+                    <strong>Período:</strong> 2025.2
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: RESULTADOS -->
+        <div class="slide">
+            <div class="slide-number">11/12</div>
+            <h2>🏆 Resultados e Conquistas</h2>
+
+            <div class="stats-grid" style="margin-top: 40px;">
+                <div class="stat-box">
+                    <span class="stat-number">✅</span>
+                    <span class="stat-label">15 Testes Aprovados</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">✅</span>
+                    <span class="stat-label">Zero Bugs Críticos</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">✅</span>
+                    <span class="stat-label">Documentação Completa</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">✅</span>
+                    <span class="stat-label">Backup Automático</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">✅</span>
+                    <span class="stat-label">Interface Responsiva</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">✅</span>
+                    <span class="stat-label">Sistema Funcional</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 50px;">🎓 Aprendizados</h3>
+            <ul>
+                <li><strong>Qualidade de Software:</strong> Importância de testes automatizados e métricas</li>
+                <li><strong>Arquitetura:</strong> Benefícios do padrão MVC para manutenibilidade</li>
+                <li><strong>UX Design:</strong> Interface adaptativa aumenta acessibilidade</li>
+                <li><strong>Gestão de Projeto:</strong> Planejamento e estimativas precisas</li>
+                <li><strong>Segurança:</strong> Práticas essenciais para proteger dados financeiros</li>
+            </ul>
+
+            <div class="highlight-box" style="margin-top: 40px;">
+                <strong>💎 Principal Conquista:</strong>
+                <p style="font-size: 24px; margin-top: 15px; margin-bottom: 0;">
+                    Criamos um sistema <strong>COMPLETO, FUNCIONAL E TESTADO</strong> 
+                    que resolve um problema real de forma inovadora!
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: ENCERRAMENTO -->
+        <div class="slide">
+            <div class="slide-number">12/12</div>
+            
+            <div class="cta-section" style="margin-top: 80px;">
+                <h3>✅ Missão Cumprida!</h3>
+                <p style="font-size: 26px;">
+                    Sistema funcional, testado e documentado.<br>
+                    <strong>Pronto para uso real!</strong> 🚀
+                </p>
+                
+                <div style="margin-top: 50px;">
+                    <h4 style="color: white; font-size: 28px; margin-bottom: 25px;">
+                        🔗 Links Importantes
+                    </h4>
+                    <p style="font-size: 20px; margin-bottom: 15px;">
+                        📦 <strong>GitHub:</strong> github.com/KleivsonFreitas/Simplifica_Financas
+                    </p>
+                    <p style="font-size: 20px; margin-bottom: 15px;">
+                        📸 <strong>Demo:</strong> Google Drive (Screenshots + Vídeos)
+                    </p>
+                    <p style="font-size: 20px;">
+                        📧 <strong>Contato:</strong> kleivsonfreitas@gmail.com
+                    </p>
+                </div>
+
+                <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid rgba(255,255,255,0.3);">
+                    <p style="font-size: 18px; opacity: 0.9;">
+                        <strong>Desenvolvido com ❤️ pela equipe FPB</strong><br>
+                        Projeto A3 - Gestão e Qualidade de Software • 2025.2
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 32px; color: #667eea; font-weight: bold;">
+                    Obrigado pela atenção! 🙏
+                </p>
+            </div>
+        </div>
+
+        <!-- CONTROLES DE NAVEGAÇÃO -->
+        <div class="controls">
+            <button class="btn-prev" onclick="prevSlide()" disabled>
+                ← Anterior
+            </button>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            
+            <button class="btn-next" onclick="nextSlide()">
+                Próximo →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.querySelector('.btn-prev');
+        const nextBtn = document.querySelector('.btn-next');
+        const progressBar = document.getElementById('progressBar');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = n;
+            slides[currentSlide].classList.add('active');
+            
+            // Atualiza botões
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            // Atualiza texto do botão próximo
+            if (currentSlide === totalSlides - 1) {
+                nextBtn.textContent = 'Fim';
+            } else {
+                nextBtn.innerHTML = 'Próximo →';
+            }
+            
+            // Atualiza barra de progresso
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+            // Atalho: Home = primeira slide
+            if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            }
+            // Atalho: End = última slide
+            if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(totalSlides - 1);
+            }
+        });
+
+        // Inicialização
+        showSlide(0);
+    </script>
+</body>
+</html>
+                
