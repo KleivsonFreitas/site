@@ -2,7 +2,7 @@ services:
   - type: web
     name: simplifica-financas
     env: python
-    region: virginia
+    region: virginia   # Virginia (US East)
     plan: free
     branch: main
 
@@ -12,20 +12,9 @@ services:
     envVars:
       - key: SECRET_KEY
         generateValue: true
+
       - key: DATABASE_URL
-        fromDatabase:
-          name: simplifica-financas-db
-          property: connectionString
+        sync: false   # vamos definir manualmente no dashboard
+
       - key: FLASK_DEBUG
         value: "False"
-
-databases:
-  - name: simplifica-financas-db
-    databaseName: gestao_financeira
-    user: admin_financas
-    region: virginia
-    plan: free
-    ipAllowList: []
-
-
-
