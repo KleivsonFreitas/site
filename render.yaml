@@ -2,11 +2,9 @@ services:
   - type: web
     name: simplifica-financas
     env: python
-    region: virginia        # Virginia (US East)
+    region: virginia
     plan: free
     branch: main
-
-    pythonVersion: 3.11.9
 
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
@@ -25,7 +23,9 @@ databases:
   - name: simplifica-financas-db
     databaseName: gestao_financeira
     user: admin_financas
-    region: virginia        # Virginia (US East)
+    region: virginia
     plan: free
     ipAllowList: []
+
+
 
